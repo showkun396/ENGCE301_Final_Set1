@@ -168,7 +168,7 @@ async function dashLogin() {
     token = data.token;
     localStorage.setItem('jwt_token', token);
     document.getElementById('login-overlay').style.display = 'none';
-    document.getElementById('logged-as').textContent = `👤 ${data.user.username} (${data.user.role})`;
+    document.getElementById('logged-as').textContent = `👤 ${data.user?.username || data.user?.email || 'User'} (${data.user?.role || 'guest'})`;
     loadStats();
     loadLogs();
     startAutoRefresh();

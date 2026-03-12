@@ -21,12 +21,12 @@ services:
   auth-service:
     build: ./auth-service
     environment:
+      JWT_SECRET: myfinalexamsecret
       DB_HOST:      postgres
       DB_PORT:      5432
       DB_NAME:      ${POSTGRES_DB}
       DB_USER:      ${POSTGRES_USER}
       DB_PASSWORD:  ${POSTGRES_PASSWORD}
-      JWT_SECRET:   ${JWT_SECRET}
       JWT_EXPIRES:  ${JWT_EXPIRES}
       PORT:         3001
     depends_on:
@@ -43,7 +43,7 @@ services:
       DB_NAME:      ${POSTGRES_DB}
       DB_USER:      ${POSTGRES_USER}
       DB_PASSWORD:  ${POSTGRES_PASSWORD}
-      JWT_SECRET:   ${JWT_SECRET}
+      JWT_SECRET:   myfinalexamsecret
       PORT:         3002
     depends_on:
       postgres:     { condition: service_healthy }
@@ -54,13 +54,16 @@ services:
   # ── Log Service ──────────────────────────────────────────────────────
   log-service:
     build: ./log-service
+    container_name: log-service
+    ports:
+      - "3003:3003"
     environment:
+      JWT_SECRET: myfinalexamsecret
       DB_HOST:      postgres
       DB_PORT:      5432
       DB_NAME:      ${POSTGRES_DB}
       DB_USER:      ${POSTGRES_USER}
       DB_PASSWORD:  ${POSTGRES_PASSWORD}
-      JWT_SECRET:   ${JWT_SECRET}
       PORT:         3003
     depends_on:
       postgres: { condition: service_healthy }
